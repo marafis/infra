@@ -3,8 +3,16 @@ kind: Ingress
 metadata:
   name: website-ingress
   namespace: website
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: nginx
+
+  tls:
+    - hosts:
+        - marafis.com
+      secretName: website-tls
+
   rules:
     - host: marafis.com
       http:
