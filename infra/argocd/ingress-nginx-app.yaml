@@ -30,6 +30,8 @@ spec:
             # Improve security headers for all apps automatically
             use-forwarded-headers: "true"
             proxy-real-ip-cidr: "0.0.0.0/0"
+            hsts: "true"
+            hsts-include-subdomains: "true"
 
   destination:
     server: https://kubernetes.default.svc

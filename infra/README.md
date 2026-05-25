@@ -37,3 +37,10 @@ kubectl describe certificate wildcard-tls -n ingress-nginx
 `git push`
 
  Done. HTTPS at myapp.marafis.com in ~60 seconds.`
+
+
+# newapp/ingress.yaml — this is ALL you need for HTTPS
+spec:
+ingressClassName: nginx
+rules:
+- host: app1.marafis.com   # HTTPS automatic, no tls: block needed
