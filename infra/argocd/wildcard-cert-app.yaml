@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/marafis/marafis-infra.git
     targetRevision: main
-    path: wildcard-cert
+    path: infra/wildcard-cert
 
   destination:
     server: https://kubernetes.default.svc

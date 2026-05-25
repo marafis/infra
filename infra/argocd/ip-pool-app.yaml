@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/marafis/marafis-infra.git
     targetRevision: main
-    path: metallb
+    path: infra/metallb
 
   destination:
     server: https://kubernetes.default.svc

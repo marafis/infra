@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/marafis/marafis-infra.git
     targetRevision: main
-    path: cluster-issuer
+    path: infra/cluster-issuer
 
   destination:
     server: https://kubernetes.default.svc
