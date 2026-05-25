@@ -4,8 +4,8 @@ metadata:
   name: strapi
 spec:
   source:
-    repoURL: https://github.com/marafis/marafis-infra
-    path: infra
+    repoURL: https://github.com/marafis/marafis-infra.git
+    path: infra/strapi
     targetRevision: main
   destination:
     server: https://kubernetes.default.svc
