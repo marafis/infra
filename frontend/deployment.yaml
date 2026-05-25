@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/marafis/frontend:86e8471
+          image: ghcr.io/marafis/frontend:1e61539
           ports:
             - containerPort: 80
