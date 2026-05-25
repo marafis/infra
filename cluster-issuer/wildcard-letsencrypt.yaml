@@ -1,15 +1,18 @@
 apiVersion: cert-manager.io/v1
-kind: Certificate
+kind: ClusterIssuer
 metadata:
-  name: wildcard-marafis
-  namespace: website
+  name: letsencrypt-wildcard
 spec:
   acme:
-    secretName: wildcard-marafis-tls
-    issuerRef:
-      name: letsencrypt-wildcard
-      kind: ClusterIssuer
+    email: oncmmr@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-wildcard-key
 
-    dnsNames:
-      - marafis.com
-      - "*.marafis.com"
+    solvers:
+      - dns01:
+          cloudDNS:
+            project: marafis-com
+            serviceAccountSecretRef:
+              name: clouddns-dns01-solver-svc-acct
+              key: key.json
