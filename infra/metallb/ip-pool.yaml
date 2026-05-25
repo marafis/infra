@@ -5,10 +5,13 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-    - 94.130.107.251-94.130.107.251
+    - 94.130.107.251/32          # Your Hetzner public IP
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   name: public-l2
   namespace: metallb-system
+spec:
+  ipAddressPools:
+    - public-pool                # Explicitly bind advertisement to pool

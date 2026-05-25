@@ -1,0 +1,22 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-tls
+  namespace: ingress-nginx             # Secret is created in ingress-nginx namespace
+spec:
+  secretName: wildcard-tls            # ingress-nginx references this via default-ssl-certificate
+
+  issuerRef:
+    name: letsencrypt-wildcard
+    kind: ClusterIssuer
+
+  # Covers apex domain AND all subdomains.
+  # This single cert handles: marafis.com, www.marafis.com,
+  # app1.marafis.com, api.marafis.com — anything you add in future.
+  commonName: "*.marafis.com"
+  dnsNames:
+    - "marafis.com"                   # Apex — wildcard does NOT cover this
+    - "*.marafis.com"                 # All subdomains: www, app1, api, etc.
+
+  # cert-manager will auto-renew 30 days before expiry
+  renewBefore: 720h                   # 30 days

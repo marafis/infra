@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: website
+  name: root
   namespace: argocd
 spec:
   project: default
@@ -9,11 +9,11 @@ spec:
   source:
     repoURL: https://github.com/marafis/marafis-infra.git
     targetRevision: main
-    path: frontend
+    path: argocd               # ArgoCD watches this folder for all child apps
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: website
+    namespace: argocd
 
   syncPolicy:
     automated:

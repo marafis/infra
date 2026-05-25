@@ -3,10 +3,9 @@ kind: Ingress
 metadata:
   name: website-ingress
   namespace: website
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-wildcard
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-
+  # No cert-manager annotations needed here.
+  # No tls: block needed here.
+  # HTTPS is handled automatically by ingress-nginx using the wildcard-tls secret.
 spec:
   ingressClassName: nginx
 
