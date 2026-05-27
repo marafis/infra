@@ -13,13 +13,9 @@ spec:
       labels:
         app: strapi
     spec:
-      # Fixes directory write permissions for your media library uploads
-      securityContext:
-        fsGroup: 1000
-        runAsUser: 1000
       containers:
         - name: strapi
-          image: ghcr.io/marafis/strapi-cms:b62e7ad
+          image: ghcr.io/marafis/strapi-cms:00e188a
           ports:
             - containerPort: 1337
           env:
@@ -39,22 +35,5 @@ spec:
               value: "0.0.0.0"
             - name: PORT
               value: "1337"
-            # ◄ FIXED: SECURITY KEYS MANDATORY FOR PRODUCTION STRAPI v5 ►
             - name: JWT_SECRET
-              value: "c3b4a5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6" # Change this to a unique random string!
-            - name: APP_KEYS
-              value: "9b1ca2f4d5e6a7b8c9d0e1f2a3b4c5d6,6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a"
-            - name: API_TOKEN_SALT
-              value: "a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2"
-            - name: ADMIN_JWT_SECRET
-              value: "f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3"
-            - name: TRANSFER_TOKEN_SALT
-              value: "1d2c3b4a5e6f7a8b9c0d1e2f3a4b5c6d"
-          # Optional but highly recommended: persists uploaded blog pictures
-          volumeMounts:
-            - name: strapi-uploads
-              mountPath: /opt/app/public/uploads
-      volumes:
-        - name: strapi-uploads
-          persistentVolumeClaim:
-            claimName: strapi-uploads-pvc
+              value: "c3b4a5d6e7f8a9b0c1d2e3f4a5b6c7d8" # Replace with a random 32-character string
