@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: strapi
-          image: ghcr.io/marafis/strapi-cms:f79e13b
+          image: ghcr.io/marafis/strapi-cms:00e188a
           ports:
             - containerPort: 1337
           env:
