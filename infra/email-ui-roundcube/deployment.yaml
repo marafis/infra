@@ -23,7 +23,12 @@ spec:
           ports:
             - containerPort: 80
           env:
+            # Point directly to the host's internal network gateway
             - name: ROUNDCUBEMAIL_DEFAULT_HOST
-              value: "tls://mail.marafis.com"
+              value: "172.17.0.1"
             - name: ROUNDCUBEMAIL_DEFAULT_PORT
               value: "143"
+            - name: ROUNDCUBEMAIL_SMTP_SERVER
+              value: "172.17.0.1"
+            - name: ROUNDCUBEMAIL_SMTP_PORT
+              value: "587"
