@@ -13,6 +13,10 @@ spec:
       labels:
         app: roundcube
     spec:
+      hostAliases:
+        - ip: "94.130.107.251" # Force it to resolve externally to the host interface cleanly
+          hostnames:
+            - "mail.marafis.com"
       containers:
         - name: roundcube
           image: roundcube/roundcubemail:latest
