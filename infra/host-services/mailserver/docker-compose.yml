@@ -4,29 +4,35 @@ services:
   mailserver:
     image: ghcr.io/docker-mailserver/docker-mailserver:latest
     container_name: mailserver
-    # Provide the FQDN of your mail server
     hostname: mail
     domainname: marafis.com
     ports:
-      - "25:25"     # SMTP (server-to-server)
+      - "25:25"     # SMTP (Server-to-Server delivery)
       - "143:143"   # IMAP STARTTLS
-      - "465:465"   # ESMTP SSL/TLS
-      - "587:587"   # ESMTP STARTTLS
-      - "993:993"   # IMAP SSL/TLS
+      - "465:465"   # SMTPS (Implicit SSL/TLS)
+      - "587:587"   # SMTP Submission (STARTTLS)
+      - "993:993"   # IMAPS (Implicit SSL/TLS)
     volumes:
       - ./mail-data:/var/mail
       - ./mail-state:/var/mail-state
       - ./mail-logs:/var/log/mail
       - ./config:/tmp/docker-mailserver
-      # Read your cert-manager SSL certificates directly from K3s host path if possible,
-      # or copy them over. For now, we use snakeoil or custom paths below.
+      # Mount directory containing mapped cert-manager certificates from the host
+      - /etc/letsencrypt/live/marafis.com:/etc/letsencrypt/live/marafis.com:ro
     environment:
       - OVERVIEW_ENABLED=0
-      # Low Memory Optimization: Disable heavy scanning engines
+
+      # TLS Configuration using your cert-manager certificates
+      - SSL_TYPE=manual
+      - SSL_CERT_PATH=/etc/letsencrypt/live/marafis.com/fullchain.pem
+      - SSL_KEY_PATH=/etc/letsencrypt/live/marafis.com/privkey.pem
+
+      # Resource Optimization: Disable high-memory scanning services (~300MB RAM footprint total)
       - ENABLE_SPAMASSASSIN=0
       - ENABLE_CLAMAV=0
       - ENABLE_FAIL2BAN=1
       - ENABLE_POSTGREY=0
+
       - ONE_DIR=1
       - LOG_LEVEL=info
       - PERMIT_DOCKER=network
