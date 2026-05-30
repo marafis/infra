@@ -1,0 +1,9 @@
+
+# Ignore active runtime and configuration data
+mail-data/
+mail-state/
+mail-logs/
+
+# Ignore keys generated at runtime
+config/opendkim/
+config/ssl/
