@@ -19,78 +19,57 @@ metadata:
 spec:
   serviceName: postgres
   replicas: 1
-
   selector:
     matchLabels:
       app: postgres
-
   template:
     metadata:
       labels:
         app: postgres
-
     spec:
       containers:
         - name: postgres
           image: postgres:16
-
           ports:
             - containerPort: 5432
-
           env:
             - name: POSTGRES_DB
               value: strapi
-
             - name: POSTGRES_USER
               value: strapi
-
-            # ⚠️ DO NOT hardcode password in production (keep for now, move to Secret next step)
             - name: POSTGRES_PASSWORD
               value: strapi
-
-            # 🔥 FIX: correct PGDATA placement (critical for StatefulSet stability)
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
-
-            # 🔒 improves auth consistency
+            # Only effective on first initdb — remove if PVC already has data
+            # to avoid confusion about what's actually in pg_hba.conf
             - name: POSTGRES_INITDB_ARGS
               value: "--auth=scram-sha-256"
-
           readinessProbe:
             exec:
-              command:
-                - /bin/sh
-                - -c
-                - pg_isready -U strapi -d strapi
+              command: ["/bin/sh", "-c", "pg_isready -U strapi -d strapi"]
             initialDelaySeconds: 20
             periodSeconds: 10
             failureThreshold: 6
-
           livenessProbe:
             exec:
-              command:
-                - /bin/sh
-                - -c
-                - pg_isready -U strapi -d strapi
+              command: ["/bin/sh", "-c", "pg_isready -U strapi -d strapi"]
             initialDelaySeconds: 30
             periodSeconds: 20
             failureThreshold: 6
-
           resources:
             limits:
               memory: "512Mi"
               cpu: "500m"
-
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
-
   volumeClaimTemplates:
     - metadata:
         name: postgres-storage
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: local-path   # upgrade to longhorn later (IMPORTANT)
+        storageClassName: local-path
         resources:
           requests:
             storage: 10Gi
